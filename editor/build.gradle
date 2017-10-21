@@ -6,10 +6,6 @@ ext.baseName = 'nbt-editor'
 
 apply from: rootProject.file('gradle/build-base.gradle')
 
-repositories {
-    mavenCentral()
-}
-
 dependencies {
     compile project(':lantern-nbt')
 }

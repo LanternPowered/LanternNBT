@@ -17,12 +17,12 @@ jar {
 }
 
 processResources {
-    from 'LICENSE.txt'
+    from rootProject.file('LICENSE.txt')
 }
 
 task sourceJar(type: Jar) {
     classifier = 'sources'
-    from 'LICENSE.txt'
+    from rootProject.file('LICENSE.txt')
     from sourceSets.main.allSource
 }
 assemble.dependsOn sourceJar
