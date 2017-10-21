@@ -24,7 +24,6 @@
  */
 package org.lanternpowered.nbt.editor;
 
-import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -32,7 +31,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.MenuItem;
@@ -64,11 +62,6 @@ import java.util.function.Consumer;
 
 @SuppressWarnings("unchecked")
 public class NbtEditor extends Application {
-
-    static {
-        // Install the svg image loader
-        SvgImageLoaderFactory.install();
-    }
 
     public static void main(String[] args) {
         // Launch the app
@@ -102,12 +95,12 @@ public class NbtEditor extends Application {
 
         final VBox root = fxmlLoader.load();
 
-        loadIcon(this.file_open, "assets/icons/unarchive.svg");
-        loadIcon(this.file_save, "assets/icons/save.svg");
-        loadIcon(this.file_close, "assets/icons/clear.svg");
-        loadIcon(this.quick_open, "assets/icons/unarchive.svg");
-        loadIcon(this.quick_save, "assets/icons/save.svg");
-        loadIcon(this.quick_close, "assets/icons/clear.svg");
+        loadIcon(this.file_open, "assets/material_io/ic_unarchive_black_48dp.png");
+        loadIcon(this.file_save, "assets/material_io/ic_archive_black_48dp.png");
+        loadIcon(this.file_close, "assets/material_io/ic_clear_black_48dp.png");
+        loadIcon(this.quick_open, "assets/material_io/ic_unarchive_black_48dp.png");
+        loadIcon(this.quick_save, "assets/material_io/ic_archive_black_48dp.png");
+        loadIcon(this.quick_close, "assets/material_io/ic_clear_black_48dp.png");
 
         // Make sure that the tags view fills the anchor completely
         AnchorPane.setBottomAnchor(this.tags_view, 0.0);
