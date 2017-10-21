@@ -1,0 +1,47 @@
+// Apply plugin
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
+// Minimum version of Java required
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+// Basic project information
+group = 'org.lanternpowered'
+archivesBaseName = "lantern-${baseName}"
+version = 'dev-SNAPSHOT'
+
+jar {
+    classifier = ''
+}
+
+processResources {
+    from 'LICENSE.txt'
+}
+
+task sourceJar(type: Jar) {
+    classifier = 'sources'
+    from 'LICENSE.txt'
+    from sourceSets.main.allSource
+}
+assemble.dependsOn sourceJar
+
+license {
+    header rootProject.file('HEADER.txt')
+    sourceSets = project.sourceSets
+    include '**/*.java'
+
+    strictCheck true
+    ignoreFailures = false
+
+    ext {
+        name = rootProject.name
+        url = rootProject.url
+        organization = rootProject.organization
+    }
+
+    mapping {
+        java = 'SLASHSTAR_STYLE'
+    }
+}

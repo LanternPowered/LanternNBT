@@ -1,0 +1,7 @@
+plugins {
+    id "com.github.hierynomus.license" version "0.13.1"
+}
+
+ext.baseName = 'nbt'
+
+apply from: rootProject.file('gradle/build-base.gradle')

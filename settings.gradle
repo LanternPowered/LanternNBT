@@ -1,0 +1,7 @@
+rootProject.name = name
+
+include 'lantern-nbt'
+include 'lantern-nbt-editor'
+
+project(':lantern-nbt').projectDir = new File('nbt')
+project(':lantern-nbt-editor').projectDir = new File('editor')
