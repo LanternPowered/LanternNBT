@@ -3,6 +3,7 @@ plugins {
 }
 
 ext.baseName = 'nbt-editor'
+version = 'dev-SNAPSHOT'
 
 apply from: rootProject.file('gradle/build-base.gradle')
 

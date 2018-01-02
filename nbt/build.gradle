@@ -3,5 +3,6 @@ plugins {
 }
 
 ext.baseName = 'nbt'
+version = '1.0.0'
 
 apply from: rootProject.file('gradle/build-base.gradle')
