@@ -44,3 +44,40 @@ license {
         java = 'SLASHSTAR_STYLE'
     }
 }
+
+if (project.hasProperty('bintrayUser') && project.hasProperty('bintrayKey') &&
+        !version.endsWith("-SNAPSHOT")) {
+    apply plugin: 'maven-publish'
+
+    bintray {
+        user = project.bintrayUser
+        key = project.bintrayKey
+
+        pkg {
+            repo = 'maven'
+            name = 'lanternnbt'
+            userOrg = 'lanternpowered'
+            licenses = [ 'MIT' ]
+            vcsUrl = 'https://github.com/LanternPowered/LanternNBT.git'
+            version {
+                name = project.version
+                released  = new Date()
+                vcsTag = project.version
+            }
+        }
+
+        publications = [ 'myPublication' ]
+    }
+
+    publishing {
+        publications {
+            myPublication(MavenPublication) {
+                groupId project.group
+                artifactId project.archivesBaseName
+                version project.version
+                artifact jar
+                artifact sourceJar
+            }
+        }
+    }
+}
