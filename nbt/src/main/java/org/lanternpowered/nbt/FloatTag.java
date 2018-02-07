@@ -81,4 +81,14 @@ public final class FloatTag extends NumberTag<Float> {
     public double doubleValue() {
         return this.value;
     }
+
+    @Override
+    public int hashCode() {
+        return Float.hashCode(this.value);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof FloatTag && ((FloatTag) obj).value == this.value;
+    }
 }

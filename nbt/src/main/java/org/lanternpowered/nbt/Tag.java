@@ -96,7 +96,11 @@ public interface Tag<V> {
         } else if (tagType0 == CharArrayTag.class) {
             return (V) new char[0];
         } else if (tagType0 == CompoundArrayTag.class) {
-            return (V) new CompoundArrayTag[0];
+            return (V) new CompoundTag[0];
+        } else if (tagType0 == MapTag.class) {
+            return (V) new MapTag<>();
+        } else if (tagType0 == MapArrayTag.class) {
+            return (V) new MapTag[0];
         }
         throw new IllegalStateException();
     }
@@ -165,11 +169,20 @@ public interface Tag<V> {
         } else if (value instanceof String[]) {
             return new StringArrayTag((String[]) value);
         } else if (value instanceof Map) {
-            final CompoundTag compoundTag = new CompoundTag();
-            for (Map.Entry<String, Object> entry : ((Map<String, Object>) value).entrySet()) {
-                compoundTag.put(entry.getKey(), fromObject(entry.getValue()));
+            final MapTag mapTag = new MapTag();
+            for (Map.Entry<Object, Object> entry : ((Map<Object, Object>) value).entrySet()) {
+                mapTag.put(fromObject(entry.getKey()), fromObject(entry.getValue()));
             }
-            return compoundTag;
+            return mapTag;
+        } else if (value instanceof MapTag[]) {
+            return new MapArrayTag((MapTag[]) value);
+        } else if (value instanceof Map[]) {
+            final Map[] maps = (Map[]) value;
+            final MapTag[] mapTags = new MapTag[maps.length];
+            for (int i = 0; i < maps.length; i++) {
+                mapTags[i] = (MapTag) fromObject(maps[i]);
+            }
+            return new MapArrayTag(mapTags);
         } else if (value instanceof List) {
             final ListTag listTag = new ListTag<>();
             for (Object object : (List<?>) value) {

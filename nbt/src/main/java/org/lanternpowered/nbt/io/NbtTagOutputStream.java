@@ -43,6 +43,8 @@ import org.lanternpowered.nbt.IntTag;
 import org.lanternpowered.nbt.ListTag;
 import org.lanternpowered.nbt.LongArrayTag;
 import org.lanternpowered.nbt.LongTag;
+import org.lanternpowered.nbt.MapArrayTag;
+import org.lanternpowered.nbt.MapTag;
 import org.lanternpowered.nbt.ShortArrayTag;
 import org.lanternpowered.nbt.ShortTag;
 import org.lanternpowered.nbt.StringArrayTag;
@@ -214,6 +216,16 @@ public final class NbtTagOutputStream implements TagOutputStream {
                     writeCompound(compoundTag);
                 }
                 break;
+            case MAP:
+                break;
+            case MAP_ARRAY:
+                final MapTag[] mapTagArray = ((MapArrayTag) tag).get();
+                this.dos.writeByte(NbtType.LIST.type);
+                this.dos.writeInt(mapTagArray.length);
+                for (MapTag mapTag : mapTagArray) {
+                    writeMap(mapTag);
+                }
+                break;
             default:
                 throw new IOException("Attempted to serialize a unsupported tag type: " + tag.getClass().getName());
         }
@@ -224,6 +236,16 @@ public final class NbtTagOutputStream implements TagOutputStream {
             writeEntry(entry.getKey(), entry.getValue());
         }
         this.dos.writeByte(NbtType.END.type);
+    }
+
+    private void writeMap(MapTag tag) throws IOException {
+        this.dos.writeByte(NbtType.COMPOUND.type);
+        this.dos.writeInt(tag.size());
+        for (Map.Entry<Tag, Tag> entry : ((Map<Tag, Tag>) tag).entrySet()) {
+            writeEntry(NbtType.mapKeyName, entry.getKey());
+            writeEntry(NbtType.mapValueName, entry.getValue());
+            this.dos.writeByte(NbtType.END.type);
+        }
     }
 
     private void writeList(NbtType nbtType, ListTag<?> listTag) throws IOException {

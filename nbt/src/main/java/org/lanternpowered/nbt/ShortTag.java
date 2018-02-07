@@ -86,4 +86,14 @@ public final class ShortTag extends NumberTag<Short> {
     public short shortValue() {
         return this.value;
     }
+
+    @Override
+    public int hashCode() {
+        return Short.hashCode(this.value);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof ShortTag && ((ShortTag) obj).value == this.value;
+    }
 }

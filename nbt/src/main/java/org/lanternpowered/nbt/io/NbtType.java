@@ -41,6 +41,8 @@ import org.lanternpowered.nbt.IntTag;
 import org.lanternpowered.nbt.ListTag;
 import org.lanternpowered.nbt.LongArrayTag;
 import org.lanternpowered.nbt.LongTag;
+import org.lanternpowered.nbt.MapArrayTag;
+import org.lanternpowered.nbt.MapTag;
 import org.lanternpowered.nbt.ShortArrayTag;
 import org.lanternpowered.nbt.ShortTag;
 import org.lanternpowered.nbt.StringArrayTag;
@@ -76,10 +78,15 @@ enum NbtType {
     STRING_ARRAY            (StringArrayTag.class, "string[]", 9),
     CHAR                    (CharTag.class, "char", 8),
     CHAR_ARRAY              (CharArrayTag.class, "char[]", 8),
-    COMPOUND_ARRAY          (CompoundArrayTag.class, "compound[]", 8),
+    COMPOUND_ARRAY          (CompoundArrayTag.class, "compound[]", 9),
+    MAP                     (MapTag.class, "map", 9),
+    MAP_ARRAY               (MapArrayTag.class, "map[]", 9),
 
     UNKNOWN                 (null, 13),
     ;
+
+    static final String mapKeyName = "K";
+    static final String mapValueName = "V";
 
     static final Map<String, NbtType> bySuffix = new HashMap<>();
     static final Map<Class<?>, NbtType> byClass = new HashMap<>();

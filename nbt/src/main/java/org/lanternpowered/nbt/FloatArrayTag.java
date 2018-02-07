@@ -143,6 +143,11 @@ public final class FloatArrayTag extends ArrayTag<float[], Float> {
     }
 
     @Override
+    boolean arrayEquals(float[] that) {
+        return Arrays.equals(this.value, that);
+    }
+
+    @Override
     String valueToString() {
         return Arrays.toString(this.value);
     }

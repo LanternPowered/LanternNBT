@@ -72,7 +72,17 @@ public final class BooleanTag implements Tag<Boolean> {
     }
 
     @Override
+    public int hashCode() {
+        return Boolean.hashCode(this.value);
+    }
+
+    @Override
     public String toString() {
         return getClass().getSimpleName() + "[" + this.value + "]";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof BooleanTag && ((BooleanTag) obj).value == this.value;
     }
 }

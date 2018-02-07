@@ -101,4 +101,13 @@ public abstract class ArrayTag<V, B> extends ValueTag<V> {
      * @return The boxed array
      */
     public abstract B[] boxedArray();
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public boolean equals(Object obj) {
+        return obj != null && obj.getClass() == getClass() &&
+                arrayEquals(((ArrayTag<V, B>) obj).value);
+    }
+
+    abstract boolean arrayEquals(V that);
 }

@@ -24,6 +24,7 @@
  */
 package org.lanternpowered.nbt;
 
+import org.junit.Test;
 import org.lanternpowered.nbt.io.NbtTagInputStream;
 import org.lanternpowered.nbt.io.NbtTagOutputStream;
 
@@ -33,9 +34,10 @@ import java.nio.file.Paths;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
-final class TestMain {
+final class TagTest {
 
-    public static void main(String... args) throws IOException {
+    @Test
+    public void test() throws IOException {
         final CompoundTag compoundTag = new CompoundTag();
         compoundTag.put("A", new BooleanTag(true));
         compoundTag.put("B", new BooleanArrayTag(true, false, true, true));

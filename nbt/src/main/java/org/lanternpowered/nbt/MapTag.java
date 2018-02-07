@@ -24,65 +24,55 @@
  */
 package org.lanternpowered.nbt;
 
-public final class CharTag implements Tag<Character> {
+import static java.util.Objects.requireNonNull;
 
-    private char value;
+import java.util.HashMap;
+import java.util.Map;
 
-    /**
-     * Constructs a new {@link CharTag} with the
-     * given {@code char} value.
-     *
-     * @param value The char value
-     */
-    public CharTag(char value) {
-        this.value = value;
-    }
-
-    /**
-     * Sets the value of this {@link Tag}.
-     *
-     * @param value The value
-     */
-    @Override
-    public void set(Character value) {
-        this.value = value;
-    }
+/**
+ * A map tag, which can be used to map a {@link Tag} type
+ * to another. This tag cannot be confused with the
+ * {@link CompoundTag}, this only supports one key
+ * {@link Tag} type and value {@link Tag} type.
+ *
+ * @param <K> The key tag type
+ * @param <V> The value tag type
+ */
+public final class MapTag<K extends Tag<?>, V extends Tag<?>> extends HashMap<K, V> implements Tag<Map<K, V>> {
 
     /**
-     * Sets the value of this {@link Tag}.
+     * Constructs a new {@link MapTag} from
+     * the given {@link Map}.
      *
-     * @param value The value
+     * @param map The map
+     * @return The map tag
      */
-    public void set(char value) {
-        this.value = value;
+    public static <K extends Tag<?>, V extends Tag<?>> MapTag<K, V> of(Map<K, V> map) {
+        return new MapTag<>(map);
+    }
+
+    public MapTag() {
+    }
+
+    private MapTag(Map<K, V> map) {
+        putAll(map);
     }
 
     @Override
-    public Character get() {
-        return this.value;
-    }
-
-    /**
-     * Gets the value as a {@code char}.
-     *
-     * @return The char value
-     */
-    public char charValue() {
-        return this.value;
+    public Map<K, V> get() {
+        return this;
     }
 
     @Override
-    public String toString() {
-        return getClass().getSimpleName() + "[" + this.value + "]";
+    public void set(Map<K, V> value) {
+        clear();
+        putAll(value);
     }
 
     @Override
-    public int hashCode() {
-        return Character.hashCode(this.value);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return obj instanceof CharTag && ((CharTag) obj).value == this.value;
+    public V put(K key, V value) {
+        requireNonNull(key, "A null key isn't supported");
+        requireNonNull(value, "A null value isn't supported");
+        return super.put(key, value);
     }
 }

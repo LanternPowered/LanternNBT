@@ -143,6 +143,11 @@ public final class BooleanArrayTag extends ArrayTag<boolean[], Boolean> {
     }
 
     @Override
+    boolean arrayEquals(boolean[] that) {
+        return Arrays.equals(this.value, that);
+    }
+
+    @Override
     String valueToString() {
         return Arrays.toString(this.value);
     }

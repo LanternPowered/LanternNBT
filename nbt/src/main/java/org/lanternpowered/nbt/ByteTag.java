@@ -91,4 +91,14 @@ public final class ByteTag extends NumberTag<Byte> {
     public byte byteValue() {
         return this.value;
     }
+
+    @Override
+    public int hashCode() {
+        return Byte.hashCode(this.value);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof ByteTag && ((ByteTag) obj).value == this.value;
+    }
 }

@@ -81,6 +81,11 @@ abstract class ObjectArrayTag<V> extends ArrayTag<V[], V> {
     }
 
     @Override
+    boolean arrayEquals(V[] that) {
+        return Arrays.equals(this.value, that);
+    }
+
+    @Override
     String valueToString() {
         return Arrays.toString(this.value);
     }

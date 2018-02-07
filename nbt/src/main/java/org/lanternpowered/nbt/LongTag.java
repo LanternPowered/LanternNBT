@@ -24,6 +24,8 @@
  */
 package org.lanternpowered.nbt;
 
+import java.util.List;
+
 public final class LongTag extends NumberTag<Long> {
 
     private long value;
@@ -80,5 +82,10 @@ public final class LongTag extends NumberTag<Long> {
     @Override
     public double doubleValue() {
         return this.value;
+    }
+
+    @Override
+    public int hashCode() {
+        return Long.hashCode(this.value);
     }
 }

@@ -15,6 +15,15 @@ jar {
     classifier = ''
 }
 
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    testCompile 'junit:junit:4.12'
+}
+
 processResources {
     from rootProject.file('LICENSE.txt')
 }

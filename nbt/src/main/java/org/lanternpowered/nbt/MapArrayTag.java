@@ -24,65 +24,16 @@
  */
 package org.lanternpowered.nbt;
 
-public final class CharTag implements Tag<Character> {
-
-    private char value;
+public final class MapArrayTag extends ObjectArrayTag<MapTag<?,?>> {
 
     /**
-     * Constructs a new {@link CharTag} with the
-     * given {@code char} value.
+     * Constructs a new {@link MapArrayTag} with the
+     * given {@link MapTag} array.
      *
-     * @param value The char value
+     * @param value The map tag array
      */
-    public CharTag(char value) {
-        this.value = value;
+    public MapArrayTag(MapTag<?,?>... value) {
+        super(value);
     }
 
-    /**
-     * Sets the value of this {@link Tag}.
-     *
-     * @param value The value
-     */
-    @Override
-    public void set(Character value) {
-        this.value = value;
-    }
-
-    /**
-     * Sets the value of this {@link Tag}.
-     *
-     * @param value The value
-     */
-    public void set(char value) {
-        this.value = value;
-    }
-
-    @Override
-    public Character get() {
-        return this.value;
-    }
-
-    /**
-     * Gets the value as a {@code char}.
-     *
-     * @return The char value
-     */
-    public char charValue() {
-        return this.value;
-    }
-
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() + "[" + this.value + "]";
-    }
-
-    @Override
-    public int hashCode() {
-        return Character.hashCode(this.value);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return obj instanceof CharTag && ((CharTag) obj).value == this.value;
-    }
 }

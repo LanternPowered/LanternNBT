@@ -26,6 +26,8 @@ package org.lanternpowered.nbt;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.Objects;
+
 abstract class ValueTag<T> implements Tag<T> {
 
     T value;
@@ -53,6 +55,17 @@ abstract class ValueTag<T> implements Tag<T> {
     @Override
     public String toString() {
         return getClass().getSimpleName() + valueToString();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.value);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj != null && obj.getClass() == getClass() &&
+                ((ValueTag) obj).value.equals(this.value);
     }
 
     String valueToString() {

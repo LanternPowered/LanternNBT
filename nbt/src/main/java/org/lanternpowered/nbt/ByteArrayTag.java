@@ -143,6 +143,11 @@ public final class ByteArrayTag extends ArrayTag<byte[], Byte> {
     }
 
     @Override
+    boolean arrayEquals(byte[] that) {
+        return Arrays.equals(this.value, that);
+    }
+
+    @Override
     String valueToString() {
         return Arrays.toString(this.value);
     }

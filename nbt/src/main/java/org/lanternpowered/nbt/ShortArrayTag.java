@@ -143,6 +143,11 @@ public final class ShortArrayTag extends ArrayTag<short[], Short> {
     }
 
     @Override
+    boolean arrayEquals(short[] that) {
+        return Arrays.equals(this.value, that);
+    }
+
+    @Override
     String valueToString() {
         return Arrays.toString(this.value);
     }

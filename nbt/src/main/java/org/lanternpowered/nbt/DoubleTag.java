@@ -81,4 +81,14 @@ public final class DoubleTag extends NumberTag<Double> {
     public double doubleValue() {
         return this.value;
     }
+
+    @Override
+    public int hashCode() {
+        return Double.hashCode(this.value);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof DoubleTag && ((DoubleTag) obj).value == this.value;
+    }
 }

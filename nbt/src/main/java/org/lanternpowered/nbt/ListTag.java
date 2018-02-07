@@ -111,7 +111,7 @@ public final class ListTag<T extends Tag<?>> extends ArrayList<T> implements Tag
                 if (this.tagType != null) {
                     throw new IllegalArgumentException("This ListTag only supports '" + this.tagType.getClass() + "'s");
                 } else {
-                    throw new IllegalArgumentException("This ListTag doesn't different Tag types.");
+                    throw new IllegalArgumentException("This ListTag doesn't support different Tag types.");
                 }
             } else {
                 tagType = (Class<T>) e.getClass();

@@ -43,13 +43,14 @@ import org.lanternpowered.nbt.IntTag;
 import org.lanternpowered.nbt.ListTag;
 import org.lanternpowered.nbt.LongArrayTag;
 import org.lanternpowered.nbt.LongTag;
+import org.lanternpowered.nbt.MapArrayTag;
+import org.lanternpowered.nbt.MapTag;
 import org.lanternpowered.nbt.ShortArrayTag;
 import org.lanternpowered.nbt.ShortTag;
 import org.lanternpowered.nbt.StringArrayTag;
 import org.lanternpowered.nbt.StringTag;
 import org.lanternpowered.nbt.Tag;
 
-import java.io.Closeable;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -63,6 +64,8 @@ public final class NbtTagInputStream implements TagInputStream {
     private static final float[] EMPTY_FLOAT_ARRAY = new float[0];
     private static final double[] EMPTY_DOUBLE_ARRAY = new double[0];
     private static final String[] EMPTY_STRING_ARRAY = new String[0];
+    private static final CompoundTag[] EMPTY_COMPOUND_TAG_ARRAY = new CompoundTag[0];
+    private static final MapTag[] EMPTY_MAP_TAG_ARRAY = new MapTag[0];
 
     private final DataInputStream dis;
     private final int maximumDepth;
@@ -168,6 +171,41 @@ public final class NbtTagInputStream implements TagInputStream {
             compoundTag.put(entry.name, readObject(entry, depth1));
         }
         return compoundTag;
+    }
+
+    @SuppressWarnings("unchecked")
+    private MapTag readMap(int depth) throws IOException {
+        final byte type = this.dis.readByte();
+        final int length = this.dis.readInt();
+
+        final MapTag mapTag = new MapTag();
+        if (type == NbtType.END.type) {
+            return mapTag;
+        } else if (type != NbtType.COMPOUND.type) {
+            throw new IOException("Attempted to deserialize a Map (List) but the list type wasn't a compound.");
+        }
+        depth += 1;
+        for (int i = 0; i < length; i++) {
+            Tag<?> key = null;
+            Tag<?> value = null;
+            // Read a compound tag, we only need a K and V entry
+            Entry entry;
+            while ((entry = readEntry()) != null) {
+                final Tag<?> tag = readObject(entry, depth);
+                if (entry.name.equals(NbtType.mapKeyName)) {
+                    key = tag;
+                } else if (entry.name.equals(NbtType.mapValueName)) {
+                    value = tag;
+                }
+            }
+            if (key == null) {
+                throw new IOException("Map entry was missing a key entry.");
+            } else if (value == null) {
+                throw new IOException("Map entry was missing a value entry.");
+            }
+            mapTag.put(key, value);
+        }
+        return mapTag;
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
@@ -305,16 +343,34 @@ public final class NbtTagInputStream implements TagInputStream {
                 type = this.dis.readByte();
                 length = this.dis.readInt();
                 if (type == NbtType.END.type) {
-                    return new FloatArrayTag(EMPTY_FLOAT_ARRAY);
+                    return new CompoundArrayTag(EMPTY_COMPOUND_TAG_ARRAY);
                 } else if (type != NbtType.COMPOUND.type) {
                     throw new IOException("Attempted to deserialize a Compound Array (List) but the list type wasn't a compound.");
                 }
                 depth1 = depth + 1;
                 final CompoundTag[] compoundTags = new CompoundTag[length];
-                for (int i = 0; i < compoundTags.length; i++) {
+                for (int i = 0; i < length; i++) {
                     compoundTags[i] = readCompound(depth1);
                 }
                 return new CompoundArrayTag(compoundTags);
+            case MAP:
+                return readMap(depth);
+            case MAP_ARRAY:
+                type = this.dis.readByte();
+                length = this.dis.readInt();
+                if (type == NbtType.END.type) {
+                    return new MapArrayTag(EMPTY_MAP_TAG_ARRAY);
+                } else if (type != NbtType.LIST.type) {
+                    throw new IOException("Attempted to deserialize a Map Array (List) but the list type wasn't a list.");
+                }
+                depth1 = depth + 1;
+                final MapTag[] mapTags = new MapTag[length];
+                for (int i = 0; i < length; i++) {
+                    mapTags[i] = readMap(depth1);
+                }
+                return new MapArrayTag(mapTags);
+            case END:
+                throw new IllegalStateException("Unexpected END tag");
             default:
                 throw new IOException("Attempted to deserialize a unknown nbt tag type: " + nbtType);
         }

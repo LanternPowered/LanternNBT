@@ -143,6 +143,11 @@ public final class DoubleArrayTag extends ArrayTag<double[], Double> {
     }
 
     @Override
+    boolean arrayEquals(double[] that) {
+        return Arrays.equals(this.value, that);
+    }
+
+    @Override
     String valueToString() {
         return Arrays.toString(this.value);
     }

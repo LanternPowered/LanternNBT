@@ -143,6 +143,11 @@ public final class CharArrayTag extends ArrayTag<char[], Character> {
     }
 
     @Override
+    boolean arrayEquals(char[] that) {
+        return Arrays.equals(this.value, that);
+    }
+
+    @Override
     String valueToString() {
         return Arrays.toString(this.value);
     }

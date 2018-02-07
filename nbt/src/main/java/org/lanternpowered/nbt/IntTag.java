@@ -81,4 +81,9 @@ public final class IntTag extends NumberTag<Integer> {
     public double doubleValue() {
         return this.value;
     }
+
+    @Override
+    public int hashCode() {
+        return Integer.hashCode(this.value);
+    }
 }
