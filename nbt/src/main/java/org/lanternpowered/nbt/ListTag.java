@@ -29,6 +29,7 @@ import static java.util.Objects.requireNonNull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
@@ -44,7 +45,7 @@ public final class ListTag<T extends Tag<?>> extends ArrayList<T> implements Tag
      * @return The list tag
      */
     public static ListTag<ByteTag> ofBytes(Iterable<Byte> byteIterable) {
-        return ofBytes(byteIterable, (byte) 0);
+        return ofBytes(byteIterable, null);
     }
 
     /**
@@ -59,17 +60,8 @@ public final class ListTag<T extends Tag<?>> extends ArrayList<T> implements Tag
      * @return The list tag
      */
     public static ListTag<ByteTag> ofBytes(Iterable<Byte> byteIterable,
-            @Nullable Byte  defaultValue) {
-        final ListTag<ByteTag> listTag = new ListTag<>();
-        for (Byte value : byteIterable) {
-            if (value == null) {
-                value = defaultValue;
-            }
-            if (value != null) {
-                listTag.add(new ByteTag(value));
-            }
-        }
-        return listTag;
+            @Nullable Byte defaultValue) {
+        return of(byteIterable, ByteTag::new, defaultValue);
     }
 
     /**
@@ -96,16 +88,7 @@ public final class ListTag<T extends Tag<?>> extends ArrayList<T> implements Tag
      */
     public static ListTag<ByteTag> ofBytes(Byte[] bytes,
             @Nullable Byte defaultValue) {
-        final ListTag<ByteTag> listTag = new ListTag<>();
-        for (Byte value : bytes) {
-            if (value == null) {
-                value = defaultValue;
-            }
-            if (value != null) {
-                listTag.add(new ByteTag(value));
-            }
-        }
-        return listTag;
+        return of(bytes, ByteTag::new, defaultValue);
     }
 
     /**
@@ -147,16 +130,7 @@ public final class ListTag<T extends Tag<?>> extends ArrayList<T> implements Tag
      */
     public static ListTag<IntTag> ofInts(Iterable<Integer> integerIterable,
             @Nullable Integer defaultValue) {
-        final ListTag<IntTag> listTag = new ListTag<>();
-        for (Integer value : integerIterable) {
-            if (value == null) {
-                value = defaultValue;
-            }
-            if (value != null) {
-                listTag.add(new IntTag(value));
-            }
-        }
-        return listTag;
+        return of(integerIterable, IntTag::new, defaultValue);
     }
 
     /**
@@ -183,16 +157,7 @@ public final class ListTag<T extends Tag<?>> extends ArrayList<T> implements Tag
      */
     public static ListTag<IntTag> ofInts(Integer[] integers,
             @Nullable Integer defaultValue) {
-        final ListTag<IntTag> listTag = new ListTag<>();
-        for (Integer value : integers) {
-            if (value == null) {
-                value = defaultValue;
-            }
-            if (value != null) {
-                listTag.add(new IntTag(value));
-            }
-        }
-        return listTag;
+        return of(integers, IntTag::new, defaultValue);
     }
 
     /**
@@ -234,16 +199,7 @@ public final class ListTag<T extends Tag<?>> extends ArrayList<T> implements Tag
      */
     public static ListTag<ShortTag> ofShorts(Iterable<Short> shortIterable,
             @Nullable Short defaultValue) {
-        final ListTag<ShortTag> listTag = new ListTag<>();
-        for (Short value : shortIterable) {
-            if (value == null) {
-                value = defaultValue;
-            }
-            if (value != null) {
-                listTag.add(new ShortTag(value));
-            }
-        }
-        return listTag;
+        return of(shortIterable, ShortTag::new, defaultValue);
     }
 
     /**
@@ -270,16 +226,7 @@ public final class ListTag<T extends Tag<?>> extends ArrayList<T> implements Tag
      */
     public static ListTag<ShortTag> ofShorts(Short[] shorts,
             @Nullable Short defaultValue) {
-        final ListTag<ShortTag> listTag = new ListTag<>();
-        for (Short value : shorts) {
-            if (value == null) {
-                value = defaultValue;
-            }
-            if (value != null) {
-                listTag.add(new ShortTag(value));
-            }
-        }
-        return listTag;
+        return of(shorts, ShortTag::new, defaultValue);
     }
 
     /**
@@ -321,16 +268,7 @@ public final class ListTag<T extends Tag<?>> extends ArrayList<T> implements Tag
      */
     public static ListTag<FloatTag> ofFloats(Iterable<Float> floatIterable,
             @Nullable Float defaultValue) {
-        final ListTag<FloatTag> listTag = new ListTag<>();
-        for (Float value : floatIterable) {
-            if (value == null) {
-                value = defaultValue;
-            }
-            if (value != null) {
-                listTag.add(new FloatTag(value));
-            }
-        }
-        return listTag;
+        return of(floatIterable, FloatTag::new, defaultValue);
     }
 
     /**
@@ -357,16 +295,7 @@ public final class ListTag<T extends Tag<?>> extends ArrayList<T> implements Tag
      */
     public static ListTag<FloatTag> ofFloats(Float[] floats,
             @Nullable Float defaultValue) {
-        final ListTag<FloatTag> listTag = new ListTag<>();
-        for (Float value : floats) {
-            if (value == null) {
-                value = defaultValue;
-            }
-            if (value != null) {
-                listTag.add(new FloatTag(value));
-            }
-        }
-        return listTag;
+        return of(floats, FloatTag::new, defaultValue);
     }
 
     /**
@@ -419,16 +348,7 @@ public final class ListTag<T extends Tag<?>> extends ArrayList<T> implements Tag
      */
     public static ListTag<DoubleTag> ofDoubles(Iterable<Double> doubleIterable,
             @Nullable Double defaultValue) {
-        final ListTag<DoubleTag> listTag = new ListTag<>();
-        for (Double value : doubleIterable) {
-            if (value == null) {
-                value = defaultValue;
-            }
-            if (value != null) {
-                listTag.add(new DoubleTag(value));
-            }
-        }
-        return listTag;
+        return of(doubleIterable, DoubleTag::new, defaultValue);
     }
 
     /**
@@ -455,16 +375,7 @@ public final class ListTag<T extends Tag<?>> extends ArrayList<T> implements Tag
      */
     public static ListTag<DoubleTag> ofDoubles(Double[] doubles,
             @Nullable Double defaultValue) {
-        final ListTag<DoubleTag> listTag = new ListTag<>();
-        for (Double value : doubles) {
-            if (value == null) {
-                value = defaultValue;
-            }
-            if (value != null) {
-                listTag.add(new DoubleTag(value));
-            }
-        }
-        return listTag;
+        return of(doubles, DoubleTag::new, defaultValue);
     }
 
     /**
@@ -517,16 +428,7 @@ public final class ListTag<T extends Tag<?>> extends ArrayList<T> implements Tag
      */
     public static ListTag<LongTag> ofLongs(Iterable<Long> longIterable,
             @Nullable Long defaultValue) {
-        final ListTag<LongTag> listTag = new ListTag<>();
-        for (Long value : longIterable) {
-            if (value == null) {
-                value = defaultValue;
-            }
-            if (value != null) {
-                listTag.add(new LongTag(value));
-            }
-        }
-        return listTag;
+        return of(longIterable, LongTag::new, defaultValue);
     }
 
     /**
@@ -553,16 +455,7 @@ public final class ListTag<T extends Tag<?>> extends ArrayList<T> implements Tag
      */
     public static ListTag<LongTag> ofLongs(Long[] longs,
             @Nullable Long defaultValue) {
-        final ListTag<LongTag> listTag = new ListTag<>();
-        for (Long value : longs) {
-            if (value == null) {
-                value = defaultValue;
-            }
-            if (value != null) {
-                listTag.add(new LongTag(value));
-            }
-        }
-        return listTag;
+        return of(longs, LongTag::new, defaultValue);
     }
 
     /**
@@ -604,16 +497,7 @@ public final class ListTag<T extends Tag<?>> extends ArrayList<T> implements Tag
      */
     public static ListTag<BooleanTag> ofBooleans(Iterable<Boolean> booleanIterable,
             @Nullable Boolean defaultValue) {
-        final ListTag<BooleanTag> listTag = new ListTag<>();
-        for (Boolean value : booleanIterable) {
-            if (value == null) {
-                value = defaultValue;
-            }
-            if (value != null) {
-                listTag.add(new BooleanTag(value));
-            }
-        }
-        return listTag;
+        return of(booleanIterable, BooleanTag::new, defaultValue);
     }
 
     /**
@@ -640,16 +524,7 @@ public final class ListTag<T extends Tag<?>> extends ArrayList<T> implements Tag
      */
     public static ListTag<BooleanTag> ofBooleans(Boolean[] booleans,
             @Nullable Boolean defaultValue) {
-        final ListTag<BooleanTag> listTag = new ListTag<>();
-        for (Boolean value : booleans) {
-            if (value == null) {
-                value = defaultValue;
-            }
-            if (value != null) {
-                listTag.add(new BooleanTag(value));
-            }
-        }
-        return listTag;
+        return of(booleans, BooleanTag::new, defaultValue);
     }
 
     /**
@@ -691,16 +566,7 @@ public final class ListTag<T extends Tag<?>> extends ArrayList<T> implements Tag
      */
     public static ListTag<CharTag> ofChars(Iterable<Character> charIterable,
             @Nullable Character defaultValue) {
-        final ListTag<CharTag> listTag = new ListTag<>();
-        for (Character value : charIterable) {
-            if (value == null) {
-                value = defaultValue;
-            }
-            if (value != null) {
-                listTag.add(new CharTag(value));
-            }
-        }
-        return listTag;
+        return of(charIterable, CharTag::new, defaultValue);
     }
 
     /**
@@ -727,16 +593,7 @@ public final class ListTag<T extends Tag<?>> extends ArrayList<T> implements Tag
      */
     public static ListTag<CharTag> ofChars(Character[] chars,
             @Nullable Character defaultValue) {
-        final ListTag<CharTag> listTag = new ListTag<>();
-        for (Character value : chars) {
-            if (value == null) {
-                value = defaultValue;
-            }
-            if (value != null) {
-                listTag.add(new CharTag(value));
-            }
-        }
-        return listTag;
+        return of(chars, CharTag::new, defaultValue);
     }
 
     /**
@@ -778,16 +635,7 @@ public final class ListTag<T extends Tag<?>> extends ArrayList<T> implements Tag
      */
     public static ListTag<StringTag> ofStrings(Iterable<String> stringIterable,
             @Nullable String defaultValue) {
-        final ListTag<StringTag> listTag = new ListTag<>();
-        for (String value : stringIterable) {
-            if (value == null) {
-                value = defaultValue;
-            }
-            if (value != null) {
-                listTag.add(new StringTag(value));
-            }
-        }
-        return listTag;
+        return of(stringIterable, StringTag::new, defaultValue);
     }
 
     /**
@@ -814,16 +662,7 @@ public final class ListTag<T extends Tag<?>> extends ArrayList<T> implements Tag
      */
     public static ListTag<StringTag> ofStrings(String[] strings,
             @Nullable String defaultValue) {
-        final ListTag<StringTag> listTag = new ListTag<>();
-        for (String value : strings) {
-            if (value == null) {
-                value = defaultValue;
-            }
-            if (value != null) {
-                listTag.add(new StringTag(value));
-            }
-        }
-        return listTag;
+        return of(strings, StringTag::new, defaultValue);
     }
 
     /**
@@ -835,6 +674,42 @@ public final class ListTag<T extends Tag<?>> extends ArrayList<T> implements Tag
      */
     public static <E> List<E> toList(ListTag<? extends Tag<E>> listTag) {
         return listTag.stream().map(Tag::get).collect(Collectors.toList());
+    }
+
+    public static <T extends Tag<E>, E> ListTag<T> of(Iterable<E> iterable, Function<E, T> elementTransformer) {
+        return of(iterable, elementTransformer, null);
+    }
+
+    public static <T extends Tag<E>, E> ListTag<T> of(Iterable<E> iterable, Function<E, T> elementTransformer,
+            @Nullable E defaultValue) {
+        final ListTag<T> listTag = new ListTag<>();
+        for (E value : iterable) {
+            if (value == null) {
+                value = defaultValue;
+            }
+            if (value != null) {
+                listTag.add(elementTransformer.apply(value));
+            }
+        }
+        return listTag;
+    }
+
+    public static <T extends Tag<E>, E> ListTag<T> of(E[] array, Function<E, T> elementTransformer) {
+        return of(array, elementTransformer, null);
+    }
+
+    public static <T extends Tag<E>, E> ListTag<T> of(E[] array, Function<E, T> elementTransformer,
+            @Nullable E defaultValue) {
+        final ListTag<T> listTag = new ListTag<>();
+        for (E value : array) {
+            if (value == null) {
+                value = defaultValue;
+            }
+            if (value != null) {
+                listTag.add(elementTransformer.apply(value));
+            }
+        }
+        return listTag;
     }
 
     /**

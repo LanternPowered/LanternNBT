@@ -27,9 +27,10 @@ package org.lanternpowered.nbt;
 import static java.util.Objects.requireNonNull;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.function.Function;
+
+import javax.annotation.Nullable;
 
 /**
  * A map tag, which can be used to map a {@link Tag} type
@@ -41,6 +42,42 @@ import java.util.stream.Collectors;
  * @param <V> The value tag type
  */
 public final class MapTag<K extends Tag<?>, V extends Tag<?>> extends HashMap<K, V> implements Tag<Map<K, V>> {
+
+    public static Map<IntTag, DoubleTag> ofIntToDoubleMap(Map<Integer, Double> intToDoubleMap,
+            @Nullable Double defaultValue) {
+        return of(intToDoubleMap, IntTag::new, DoubleTag::new, defaultValue);
+    }
+
+    public static Map<IntTag, IntTag> ofIntToIntMap(Map<Integer, Integer> intToIntMap,
+            @Nullable Integer defaultValue) {
+        return of(intToIntMap, IntTag::new, IntTag::new, defaultValue);
+    }
+
+    public static <K extends Tag<KE>, V extends Tag<VE>, KE, VE> MapTag<K, V> of(Map<KE, VE> map,
+            Function<KE, K> keyTransformer,
+            Function<VE, V> valueTransformer) {
+        return of(map, keyTransformer, valueTransformer, null);
+    }
+
+    public static <K extends Tag<KE>, V extends Tag<VE>, KE, VE> MapTag<K, V> of(Map<KE, VE> map,
+            Function<KE, K> keyTransformer,
+            Function<VE, V> valueTransformer,
+            @Nullable VE defaultValue) {
+        final MapTag<K, V> mapTag = new MapTag<>();
+        for (Map.Entry<KE, VE> entry : map.entrySet()) {
+            VE value = entry.getValue();
+            if (value == null) {
+                value = defaultValue;
+                if (value == null) {
+                    continue;
+                }
+            }
+            final K newKey = keyTransformer.apply(entry.getKey());
+            final V newValue = valueTransformer.apply(value);
+            mapTag.put(newKey, newValue);
+        }
+        return mapTag;
+    }
 
     /**
      * Unwraps all the {@link Tag} keys and values in the
