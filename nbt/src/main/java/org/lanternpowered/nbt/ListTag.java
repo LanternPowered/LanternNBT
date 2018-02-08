@@ -29,9 +29,813 @@ import static java.util.Objects.requireNonNull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.annotation.Nullable;
 
 @SuppressWarnings("unchecked")
 public final class ListTag<T extends Tag<?>> extends ArrayList<T> implements Tag<List<T>> {
+
+    /**
+     * Constructs a {@link ListTag} from the
+     * given byte {@link Iterable}.
+     *
+     * @param byteIterable The byte iterable
+     * @return The list tag
+     */
+    public static ListTag<ByteTag> ofBytes(Iterable<Byte> byteIterable) {
+        return ofBytes(byteIterable, (byte) 0);
+    }
+
+    /**
+     * Constructs a {@link ListTag} from the
+     * given byte {@link Iterable}.
+     *
+     * @param byteIterable The byte iterable
+     * @param defaultValue The default value, will be
+     *                     used when a byte is {@code null}.
+     *                     Providing a {@code null} default value
+     *                     will skip the entry.
+     * @return The list tag
+     */
+    public static ListTag<ByteTag> ofBytes(Iterable<Byte> byteIterable,
+            @Nullable Byte  defaultValue) {
+        final ListTag<ByteTag> listTag = new ListTag<>();
+        for (Byte value : byteIterable) {
+            if (value == null) {
+                value = defaultValue;
+            }
+            if (value != null) {
+                listTag.add(new ByteTag(value));
+            }
+        }
+        return listTag;
+    }
+
+    /**
+     * Constructs a {@link ListTag} from the
+     * given byte array.
+     *
+     * @param bytes The bytes
+     * @return The list tag
+     */
+    public static ListTag<ByteTag> ofBytes(Byte[] bytes) {
+        return ofBytes(bytes, null);
+    }
+
+    /**
+     * Constructs a {@link ListTag} from the
+     * given byte array.
+     *
+     * @param bytes The bytes
+     * @param defaultValue The default value, will be
+     *                     used when a byte is {@code null}.
+     *                     Providing a {@code null} default value
+     *                     will skip the entry.
+     * @return The list tag
+     */
+    public static ListTag<ByteTag> ofBytes(Byte[] bytes,
+            @Nullable Byte defaultValue) {
+        final ListTag<ByteTag> listTag = new ListTag<>();
+        for (Byte value : bytes) {
+            if (value == null) {
+                value = defaultValue;
+            }
+            if (value != null) {
+                listTag.add(new ByteTag(value));
+            }
+        }
+        return listTag;
+    }
+
+    /**
+     * Constructs a {@link ListTag} from the
+     * given byte array.
+     *
+     * @param bytes The bytes
+     * @return The list tag
+     */
+    public static ListTag<ByteTag> ofBytes(byte... bytes) {
+        final ListTag<ByteTag> listTag = new ListTag<>();
+        for (byte value : bytes) {
+            listTag.add(new ByteTag(value));
+        }
+        return listTag;
+    }
+
+    /**
+     * Constructs a {@link ListTag} from the
+     * given int {@link Iterable}.
+     *
+     * @param integerIterable The integer iterable
+     * @return The list tag
+     */
+    public static ListTag<IntTag> ofInts(Iterable<Integer> integerIterable) {
+        return ofInts(integerIterable, null);
+    }
+
+    /**
+     * Constructs a {@link ListTag} from the
+     * given int {@link Iterable}.
+     *
+     * @param integerIterable The integer iterable
+     * @param defaultValue The default value, will be
+     *                     used when a int is {@code null}.
+     *                     Providing a {@code null} default value
+     *                     will skip the entry.
+     * @return The list tag
+     */
+    public static ListTag<IntTag> ofInts(Iterable<Integer> integerIterable,
+            @Nullable Integer defaultValue) {
+        final ListTag<IntTag> listTag = new ListTag<>();
+        for (Integer value : integerIterable) {
+            if (value == null) {
+                value = defaultValue;
+            }
+            if (value != null) {
+                listTag.add(new IntTag(value));
+            }
+        }
+        return listTag;
+    }
+
+    /**
+     * Constructs a {@link ListTag} from the
+     * given int array.
+     *
+     * @param integers The integers
+     * @return The list tag
+     */
+    public static ListTag<IntTag> ofInts(Integer[] integers) {
+        return ofInts(integers, null);
+    }
+
+    /**
+     * Constructs a {@link ListTag} from the
+     * given int array.
+     *
+     * @param integers The integers
+     * @param defaultValue The default value, will be
+     *                     used when a int is {@code null}.
+     *                     Providing a {@code null} default value
+     *                     will skip the entry.
+     * @return The list tag
+     */
+    public static ListTag<IntTag> ofInts(Integer[] integers,
+            @Nullable Integer defaultValue) {
+        final ListTag<IntTag> listTag = new ListTag<>();
+        for (Integer value : integers) {
+            if (value == null) {
+                value = defaultValue;
+            }
+            if (value != null) {
+                listTag.add(new IntTag(value));
+            }
+        }
+        return listTag;
+    }
+
+    /**
+     * Constructs a {@link ListTag} from the
+     * given int array.
+     *
+     * @param integers The integers
+     * @return The list tag
+     */
+    public static ListTag<IntTag> ofInts(int... integers) {
+        final ListTag<IntTag> listTag = new ListTag<>();
+        for (int value : integers) {
+            listTag.add(new IntTag(value));
+        }
+        return listTag;
+    }
+
+    /**
+     * Constructs a {@link ListTag} from the
+     * given short {@link Iterable}.
+     *
+     * @param shortIterable The short iterable
+     * @return The list tag
+     */
+    public static ListTag<ShortTag> ofShorts(Iterable<Short> shortIterable) {
+        return ofShorts(shortIterable, null);
+    }
+
+    /**
+     * Constructs a {@link ListTag} from the
+     * given short {@link Iterable}.
+     *
+     * @param shortIterable The short iterable
+     * @param defaultValue The default value, will be
+     *                     used when a short is {@code null}.
+     *                     Providing a {@code null} default value
+     *                     will skip the entry.
+     * @return The list tag
+     */
+    public static ListTag<ShortTag> ofShorts(Iterable<Short> shortIterable,
+            @Nullable Short defaultValue) {
+        final ListTag<ShortTag> listTag = new ListTag<>();
+        for (Short value : shortIterable) {
+            if (value == null) {
+                value = defaultValue;
+            }
+            if (value != null) {
+                listTag.add(new ShortTag(value));
+            }
+        }
+        return listTag;
+    }
+
+    /**
+     * Constructs a {@link ListTag} from the
+     * given short array.
+     *
+     * @param shorts The shorts
+     * @return The list tag
+     */
+    public static ListTag<ShortTag> ofShorts(Short[] shorts) {
+        return ofShorts(shorts, null);
+    }
+
+    /**
+     * Constructs a {@link ListTag} from the
+     * given short array.
+     *
+     * @param shorts The shorts
+     * @param defaultValue The default value, will be
+     *                     used when a short is {@code null}.
+     *                     Providing a {@code null} default value
+     *                     will skip the entry.
+     * @return The list tag
+     */
+    public static ListTag<ShortTag> ofShorts(Short[] shorts,
+            @Nullable Short defaultValue) {
+        final ListTag<ShortTag> listTag = new ListTag<>();
+        for (Short value : shorts) {
+            if (value == null) {
+                value = defaultValue;
+            }
+            if (value != null) {
+                listTag.add(new ShortTag(value));
+            }
+        }
+        return listTag;
+    }
+
+    /**
+     * Constructs a {@link ListTag} from the
+     * given short array.
+     *
+     * @param shorts The shorts
+     * @return The list tag
+     */
+    public static ListTag<ShortTag> ofShorts(short... shorts) {
+        final ListTag<ShortTag> listTag = new ListTag<>();
+        for (short value : shorts) {
+            listTag.add(new ShortTag(value));
+        }
+        return listTag;
+    }
+
+    /**
+     * Constructs a {@link ListTag} from the
+     * given float {@link Iterable}.
+     *
+     * @param floatIterable The float iterable
+     * @return The list tag
+     */
+    public static ListTag<FloatTag> ofFloats(Iterable<Float> floatIterable) {
+        return ofFloats(floatIterable, null);
+    }
+
+    /**
+     * Constructs a {@link ListTag} from the
+     * given float {@link Iterable}.
+     *
+     * @param floatIterable The float iterable
+     * @param defaultValue The default value, will be
+     *                     used when a float is {@code null}.
+     *                     Providing a {@code null} default value
+     *                     will skip the entry.
+     * @return The list tag
+     */
+    public static ListTag<FloatTag> ofFloats(Iterable<Float> floatIterable,
+            @Nullable Float defaultValue) {
+        final ListTag<FloatTag> listTag = new ListTag<>();
+        for (Float value : floatIterable) {
+            if (value == null) {
+                value = defaultValue;
+            }
+            if (value != null) {
+                listTag.add(new FloatTag(value));
+            }
+        }
+        return listTag;
+    }
+
+    /**
+     * Constructs a {@link ListTag} from the
+     * given float array.
+     *
+     * @param floats The floats
+     * @return The list tag
+     */
+    public static ListTag<FloatTag> ofFloats(Float[] floats) {
+        return ofFloats(floats, null);
+    }
+
+    /**
+     * Constructs a {@link ListTag} from the
+     * given float array.
+     *
+     * @param floats The floats
+     * @param defaultValue The default value, will be
+     *                     used when a float is {@code null}.
+     *                     Providing a {@code null} default value
+     *                     will skip the entry.
+     * @return The list tag
+     */
+    public static ListTag<FloatTag> ofFloats(Float[] floats,
+            @Nullable Float defaultValue) {
+        final ListTag<FloatTag> listTag = new ListTag<>();
+        for (Float value : floats) {
+            if (value == null) {
+                value = defaultValue;
+            }
+            if (value != null) {
+                listTag.add(new FloatTag(value));
+            }
+        }
+        return listTag;
+    }
+
+    /**
+     * Constructs a {@link ListTag} from the
+     * given float array.
+     *
+     * @param floats The floats
+     * @return The list tag
+     */
+    public static ListTag<FloatTag> ofFloats(float... floats) {
+        final ListTag<FloatTag> listTag = new ListTag<>();
+        for (float value : floats) {
+            listTag.add(new FloatTag(value));
+        }
+        return listTag;
+    }
+
+    /**
+     * Converts the {@link ListTag} that holds
+     * {@link DoubleTag}s into a double {@link List}.
+     *
+     * @param doubleListTag The double list tag
+     * @return The double list
+     */
+    public static List<Double> toDoubleList(ListTag<DoubleTag> doubleListTag) {
+        return doubleListTag.stream().map(DoubleTag::get).collect(Collectors.toList());
+    }
+
+    /**
+     * Constructs a {@link ListTag} from the
+     * given double {@link Iterable}.
+     *
+     * @param doubleIterable The double iterable
+     * @return The list tag
+     */
+    public static ListTag<DoubleTag> ofDoubles(Iterable<Double> doubleIterable) {
+        return ofDoubles(doubleIterable, null);
+    }
+
+    /**
+     * Constructs a {@link ListTag} from the
+     * given double {@link Iterable}.
+     *
+     * @param doubleIterable The double iterable
+     * @param defaultValue The default value, will be
+     *                     used when a double is {@code null}.
+     *                     Providing a {@code null} default value
+     *                     will skip the entry.
+     * @return The list tag
+     */
+    public static ListTag<DoubleTag> ofDoubles(Iterable<Double> doubleIterable,
+            @Nullable Double defaultValue) {
+        final ListTag<DoubleTag> listTag = new ListTag<>();
+        for (Double value : doubleIterable) {
+            if (value == null) {
+                value = defaultValue;
+            }
+            if (value != null) {
+                listTag.add(new DoubleTag(value));
+            }
+        }
+        return listTag;
+    }
+
+    /**
+     * Constructs a {@link ListTag} from the
+     * given double array.
+     *
+     * @param doubles The doubles
+     * @return The list tag
+     */
+    public static ListTag<DoubleTag> ofDoubles(Double[] doubles) {
+        return ofDoubles(doubles, null);
+    }
+
+    /**
+     * Constructs a {@link ListTag} from the
+     * given double array.
+     *
+     * @param doubles The doubles
+     * @param defaultValue The default value, will be
+     *                     used when a double is {@code null}.
+     *                     Providing a {@code null} default value
+     *                     will skip the entry.
+     * @return The list tag
+     */
+    public static ListTag<DoubleTag> ofDoubles(Double[] doubles,
+            @Nullable Double defaultValue) {
+        final ListTag<DoubleTag> listTag = new ListTag<>();
+        for (Double value : doubles) {
+            if (value == null) {
+                value = defaultValue;
+            }
+            if (value != null) {
+                listTag.add(new DoubleTag(value));
+            }
+        }
+        return listTag;
+    }
+
+    /**
+     * Constructs a {@link ListTag} from the
+     * given double array.
+     *
+     * @param doubles The doubles
+     * @return The list tag
+     */
+    public static ListTag<DoubleTag> ofDoubles(double... doubles) {
+        final ListTag<DoubleTag> listTag = new ListTag<>();
+        for (double value : doubles) {
+            listTag.add(new DoubleTag(value));
+        }
+        return listTag;
+    }
+
+    /**
+     * Converts the {@link ListTag} that holds
+     * {@link LongTag}s into a long {@link List}.
+     *
+     * @param longListTag The long list tag
+     * @return The long list
+     */
+    public static List<Long> toLongList(ListTag<LongTag> longListTag) {
+        return longListTag.stream().map(LongTag::get).collect(Collectors.toList());
+    }
+
+    /**
+     * Constructs a {@link ListTag} from the
+     * given long {@link Iterable}.
+     *
+     * @param longIterable The long iterable
+     * @return The list tag
+     */
+    public static ListTag<LongTag> ofLongs(Iterable<Long> longIterable) {
+        return ofLongs(longIterable, null);
+    }
+
+    /**
+     * Constructs a {@link ListTag} from the
+     * given long {@link Iterable}.
+     *
+     * @param longIterable The long iterable
+     * @param defaultValue The default value, will be
+     *                     used when a long is {@code null}.
+     *                     Providing a {@code null} default value
+     *                     will skip the entry.
+     * @return The list tag
+     */
+    public static ListTag<LongTag> ofLongs(Iterable<Long> longIterable,
+            @Nullable Long defaultValue) {
+        final ListTag<LongTag> listTag = new ListTag<>();
+        for (Long value : longIterable) {
+            if (value == null) {
+                value = defaultValue;
+            }
+            if (value != null) {
+                listTag.add(new LongTag(value));
+            }
+        }
+        return listTag;
+    }
+
+    /**
+     * Constructs a {@link ListTag} from the
+     * given long array.
+     *
+     * @param longs The longs
+     * @return The list tag
+     */
+    public static ListTag<LongTag> ofLongs(Long[] longs) {
+        return ofLongs(longs, null);
+    }
+
+    /**
+     * Constructs a {@link ListTag} from the
+     * given long array.
+     *
+     * @param longs The longs
+     * @param defaultValue The default value, will be
+     *                     used when a long is {@code null}.
+     *                     Providing a {@code null} default value
+     *                     will skip the entry.
+     * @return The list tag
+     */
+    public static ListTag<LongTag> ofLongs(Long[] longs,
+            @Nullable Long defaultValue) {
+        final ListTag<LongTag> listTag = new ListTag<>();
+        for (Long value : longs) {
+            if (value == null) {
+                value = defaultValue;
+            }
+            if (value != null) {
+                listTag.add(new LongTag(value));
+            }
+        }
+        return listTag;
+    }
+
+    /**
+     * Constructs a {@link ListTag} from the
+     * given long array.
+     *
+     * @param longs The longs
+     * @return The list tag
+     */
+    public static ListTag<LongTag> ofLongs(long... longs) {
+        final ListTag<LongTag> listTag = new ListTag<>();
+        for (long value : longs) {
+            listTag.add(new LongTag(value));
+        }
+        return listTag;
+    }
+
+    /**
+     * Constructs a {@link ListTag} from the
+     * given boolean {@link Iterable}.
+     *
+     * @param booleanIterable The boolean iterable
+     * @return The list tag
+     */
+    public static ListTag<BooleanTag> ofBooleans(Iterable<Boolean> booleanIterable) {
+        return ofBooleans(booleanIterable, null);
+    }
+
+    /**
+     * Constructs a {@link ListTag} from the
+     * given boolean {@link Iterable}.
+     *
+     * @param booleanIterable The boolean iterable
+     * @param defaultValue The default value, will be
+     *                     used when a boolean is {@code null}.
+     *                     Providing a {@code null} default value
+     *                     will skip the entry.
+     * @return The list tag
+     */
+    public static ListTag<BooleanTag> ofBooleans(Iterable<Boolean> booleanIterable,
+            @Nullable Boolean defaultValue) {
+        final ListTag<BooleanTag> listTag = new ListTag<>();
+        for (Boolean value : booleanIterable) {
+            if (value == null) {
+                value = defaultValue;
+            }
+            if (value != null) {
+                listTag.add(new BooleanTag(value));
+            }
+        }
+        return listTag;
+    }
+
+    /**
+     * Constructs a {@link ListTag} from the
+     * given boolean array.
+     *
+     * @param booleans The booleans
+     * @return The list tag
+     */
+    public static ListTag<BooleanTag> ofBooleans(Boolean[] booleans) {
+        return ofBooleans(booleans, null);
+    }
+
+    /**
+     * Constructs a {@link ListTag} from the
+     * given boolean array.
+     *
+     * @param booleans The booleans
+     * @param defaultValue The default value, will be
+     *                     used when a boolean is {@code null}.
+     *                     Providing a {@code null} default value
+     *                     will skip the entry.
+     * @return The list tag
+     */
+    public static ListTag<BooleanTag> ofBooleans(Boolean[] booleans,
+            @Nullable Boolean defaultValue) {
+        final ListTag<BooleanTag> listTag = new ListTag<>();
+        for (Boolean value : booleans) {
+            if (value == null) {
+                value = defaultValue;
+            }
+            if (value != null) {
+                listTag.add(new BooleanTag(value));
+            }
+        }
+        return listTag;
+    }
+
+    /**
+     * Constructs a {@link ListTag} from the
+     * given boolean array.
+     *
+     * @param booleans The booleans
+     * @return The list tag
+     */
+    public static ListTag<BooleanTag> ofBooleans(boolean... booleans) {
+        final ListTag<BooleanTag> listTag = new ListTag<>();
+        for (boolean value : booleans) {
+            listTag.add(new BooleanTag(value));
+        }
+        return listTag;
+    }
+
+    /**
+     * Constructs a {@link ListTag} from the
+     * given char {@link Iterable}.
+     *
+     * @param charIterable The char iterable
+     * @return The list tag
+     */
+    public static ListTag<CharTag> ofChars(Iterable<Character> charIterable) {
+        return ofChars(charIterable, null);
+    }
+
+    /**
+     * Constructs a {@link ListTag} from the
+     * given char {@link Iterable}.
+     *
+     * @param charIterable The char iterable
+     * @param defaultValue The default value, will be
+     *                     used when a char is {@code null}.
+     *                     Providing a {@code null} default value
+     *                     will skip the entry.
+     * @return The list tag
+     */
+    public static ListTag<CharTag> ofChars(Iterable<Character> charIterable,
+            @Nullable Character defaultValue) {
+        final ListTag<CharTag> listTag = new ListTag<>();
+        for (Character value : charIterable) {
+            if (value == null) {
+                value = defaultValue;
+            }
+            if (value != null) {
+                listTag.add(new CharTag(value));
+            }
+        }
+        return listTag;
+    }
+
+    /**
+     * Constructs a {@link ListTag} from the
+     * given char array.
+     *
+     * @param chars The chars
+     * @return The list tag
+     */
+    public static ListTag<CharTag> ofChars(Character[] chars) {
+        return ofChars(chars, null);
+    }
+
+    /**
+     * Constructs a {@link ListTag} from the
+     * given char array.
+     *
+     * @param chars The chars
+     * @param defaultValue The default value, will be
+     *                     used when a char is {@code null}.
+     *                     Providing a {@code null} default value
+     *                     will skip the entry.
+     * @return The list tag
+     */
+    public static ListTag<CharTag> ofChars(Character[] chars,
+            @Nullable Character defaultValue) {
+        final ListTag<CharTag> listTag = new ListTag<>();
+        for (Character value : chars) {
+            if (value == null) {
+                value = defaultValue;
+            }
+            if (value != null) {
+                listTag.add(new CharTag(value));
+            }
+        }
+        return listTag;
+    }
+
+    /**
+     * Constructs a {@link ListTag} from the
+     * given char array.
+     *
+     * @param chars The chars
+     * @return The list tag
+     */
+    public static ListTag<CharTag> ofChars(char... chars) {
+        final ListTag<CharTag> listTag = new ListTag<>();
+        for (char value : chars) {
+            listTag.add(new CharTag(value));
+        }
+        return listTag;
+    }
+
+    /**
+     * Constructs a {@link ListTag} from the
+     * given String {@link Iterable}.
+     *
+     * @param stringIterable The String iterable
+     * @return The list tag
+     */
+    public static ListTag<StringTag> ofStrings(Iterable<String> stringIterable) {
+        return ofStrings(stringIterable, null);
+    }
+
+    /**
+     * Constructs a {@link ListTag} from the
+     * given String {@link Iterable}.
+     *
+     * @param stringIterable The String iterable
+     * @param defaultValue The default value, will be
+     *                     used when a string is {@code null}.
+     *                     Providing a {@code null} default value
+     *                     will skip the entry.
+     * @return The list tag
+     */
+    public static ListTag<StringTag> ofStrings(Iterable<String> stringIterable,
+            @Nullable String defaultValue) {
+        final ListTag<StringTag> listTag = new ListTag<>();
+        for (String value : stringIterable) {
+            if (value == null) {
+                value = defaultValue;
+            }
+            if (value != null) {
+                listTag.add(new StringTag(value));
+            }
+        }
+        return listTag;
+    }
+
+    /**
+     * Constructs a {@link ListTag} from the
+     * given String array.
+     *
+     * @param strings The Strings
+     * @return The list tag
+     */
+    public static ListTag<StringTag> ofStrings(String... strings) {
+        return ofStrings(strings, null);
+    }
+
+    /**
+     * Constructs a {@link ListTag} from the
+     * given String array.
+     *
+     * @param strings The Strings
+     * @param defaultValue The default value, will be
+     *                     used when a string is {@code null}.
+     *                     Providing a {@code null} default value
+     *                     will skip the entry.
+     * @return The list tag
+     */
+    public static ListTag<StringTag> ofStrings(String[] strings,
+            @Nullable String defaultValue) {
+        final ListTag<StringTag> listTag = new ListTag<>();
+        for (String value : strings) {
+            if (value == null) {
+                value = defaultValue;
+            }
+            if (value != null) {
+                listTag.add(new StringTag(value));
+            }
+        }
+        return listTag;
+    }
+
+    /**
+     * Unwraps all the {@link Tag} elements in the
+     * {@link ListTag} and puts them into a {@link List}.
+     *
+     * @param listTag The list tag
+     * @return The list
+     */
+    public static <E> List<E> toList(ListTag<? extends Tag<E>> listTag) {
+        return listTag.stream().map(Tag::get).collect(Collectors.toList());
+    }
 
     /**
      * Constructs a new {@link ListTag} from
@@ -44,6 +848,17 @@ public final class ListTag<T extends Tag<?>> extends ArrayList<T> implements Tag
         return new ListTag<>(list);
     }
 
+    /**
+     * Constructs a new {@link ListTag} from
+     * the given {@link Iterable}.
+     *
+     * @param iterable The iterable
+     * @return The list tag
+     */
+    public static <T extends Tag<?>> ListTag<T> of(Iterable<T> iterable) {
+        return new ListTag<>(iterable);
+    }
+
     private Class<T> tagType;
 
     /**
@@ -52,8 +867,8 @@ public final class ListTag<T extends Tag<?>> extends ArrayList<T> implements Tag
     public ListTag() {
     }
 
-    private ListTag(List<T> list) {
-        addAll(list);
+    private ListTag(Iterable<T> iterable) {
+        iterable.forEach(this::add);
     }
 
     @Override

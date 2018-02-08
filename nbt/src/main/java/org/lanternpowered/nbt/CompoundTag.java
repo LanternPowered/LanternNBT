@@ -29,6 +29,8 @@ import static java.util.Objects.requireNonNull;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.Nullable;
+
 @SuppressWarnings("unchecked")
 public final class CompoundTag extends HashMap<String, Tag<?>> implements Tag<Map<String, Tag<?>>> {
 
@@ -64,6 +66,7 @@ public final class CompoundTag extends HashMap<String, Tag<?>> implements Tag<Ma
         putAll(value);
     }
 
+    @Nullable
     @Override
     public Tag<?> put(String key, Tag<?> value) {
         requireNonNull(key, "key");
@@ -84,6 +87,7 @@ public final class CompoundTag extends HashMap<String, Tag<?>> implements Tag<Ma
      * @param <V> The value type
      * @return The value if found, otherwise {@code null}
      */
+    @Nullable
     public <V> V getValue(String key, Class<V> valueType) {
         final Tag<?> tag = get(key);
         if (tag == null) {
@@ -102,6 +106,7 @@ public final class CompoundTag extends HashMap<String, Tag<?>> implements Tag<Ma
      * @param <V> The value type
      * @return The value if found, otherwise {@code null}
      */
+    @Nullable
     public <V> V getValueByTag(String key, Class<Tag<V>> tagType) {
         final Tag<?> tag = get(key);
         if (!tagType.isInstance(tag)) {
@@ -116,6 +121,7 @@ public final class CompoundTag extends HashMap<String, Tag<?>> implements Tag<Ma
      * @param key The key
      * @return The value if found, otherwise {@code null}
      */
+    @Nullable
     public Object getValue(String key) {
         final Tag<?> tag = get(key);
         return tag == null ? null : tag.get();
@@ -166,6 +172,7 @@ public final class CompoundTag extends HashMap<String, Tag<?>> implements Tag<Ma
      * @param key The key
      * @return The boolean value
      */
+    @Nullable
     public Boolean getNullableBoolean(String key) {
         final Tag<?> tag = get(key);
         if (tag == null || !(tag instanceof BooleanTag)) {
@@ -219,6 +226,7 @@ public final class CompoundTag extends HashMap<String, Tag<?>> implements Tag<Ma
      * @param key The key
      * @return The char value
      */
+    @Nullable
     public Character getNullableChar(String key) {
         final Tag<?> tag = get(key);
         if (tag == null || !(tag instanceof CharTag)) {
@@ -272,6 +280,7 @@ public final class CompoundTag extends HashMap<String, Tag<?>> implements Tag<Ma
      * @param key The key
      * @return The byte value
      */
+    @Nullable
     public Byte getNullableByte(String key) {
         final Tag<?> tag = get(key);
         if (tag == null || !(tag instanceof NumberTag)) {
@@ -325,6 +334,7 @@ public final class CompoundTag extends HashMap<String, Tag<?>> implements Tag<Ma
      * @param key The key
      * @return The short value
      */
+    @Nullable
     public Short getNullableShort(String key) {
         final Tag<?> tag = get(key);
         if (tag == null || !(tag instanceof NumberTag)) {
@@ -378,6 +388,7 @@ public final class CompoundTag extends HashMap<String, Tag<?>> implements Tag<Ma
      * @param key The key
      * @return The int value
      */
+    @Nullable
     public Integer getNullableInt(String key) {
         final Tag<?> tag = get(key);
         if (tag == null || !(tag instanceof NumberTag)) {
@@ -431,6 +442,7 @@ public final class CompoundTag extends HashMap<String, Tag<?>> implements Tag<Ma
      * @param key The key
      * @return The long value
      */
+    @Nullable
     public Long getNullableLong(String key) {
         final Tag<?> tag = get(key);
         if (tag == null || !(tag instanceof NumberTag)) {
@@ -484,6 +496,7 @@ public final class CompoundTag extends HashMap<String, Tag<?>> implements Tag<Ma
      * @param key The key
      * @return The float value
      */
+    @Nullable
     public Float getNullableFloat(String key) {
         final Tag<?> tag = get(key);
         if (tag == null || !(tag instanceof NumberTag)) {
@@ -537,6 +550,7 @@ public final class CompoundTag extends HashMap<String, Tag<?>> implements Tag<Ma
      * @param key The key
      * @return The double value
      */
+    @Nullable
     public Double getNullableDouble(String key) {
         final Tag<?> tag = get(key);
         if (tag == null || !(tag instanceof NumberTag)) {

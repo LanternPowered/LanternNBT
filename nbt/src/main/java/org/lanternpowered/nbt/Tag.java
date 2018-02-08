@@ -24,6 +24,8 @@
  */
 package org.lanternpowered.nbt;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.List;
 import java.util.Map;
 
@@ -112,6 +114,7 @@ public interface Tag<V> {
      * @return The tag
      */
     static Tag<?> fromObject(Object value) {
+        requireNonNull(value, "value");
         if (value instanceof Tag) {
             return (Tag<?>) value;
         } else if (value instanceof CompoundTag[]) {

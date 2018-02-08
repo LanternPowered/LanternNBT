@@ -34,7 +34,7 @@ import java.nio.file.Paths;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
-final class TagTest {
+public final class TagTest {
 
     @Test
     public void test() throws IOException {

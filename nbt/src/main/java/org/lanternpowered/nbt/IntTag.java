@@ -86,4 +86,9 @@ public final class IntTag extends NumberTag<Integer> {
     public int hashCode() {
         return Integer.hashCode(this.value);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof IntTag && ((IntTag) obj).value == this.value;
+    }
 }

@@ -24,8 +24,6 @@
  */
 package org.lanternpowered.nbt;
 
-import java.util.List;
-
 public final class LongTag extends NumberTag<Long> {
 
     private long value;
@@ -87,5 +85,10 @@ public final class LongTag extends NumberTag<Long> {
     @Override
     public int hashCode() {
         return Long.hashCode(this.value);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof LongTag && ((LongTag) obj).value == this.value;
     }
 }

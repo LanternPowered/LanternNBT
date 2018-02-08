@@ -27,7 +27,9 @@ package org.lanternpowered.nbt;
 import static java.util.Objects.requireNonNull;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * A map tag, which can be used to map a {@link Tag} type
@@ -41,6 +43,21 @@ import java.util.Map;
 public final class MapTag<K extends Tag<?>, V extends Tag<?>> extends HashMap<K, V> implements Tag<Map<K, V>> {
 
     /**
+     * Unwraps all the {@link Tag} keys and values in the
+     * {@link MapTag} and puts them into a {@link Map}.
+     *
+     * @param mapTag The map tag
+     * @return The map
+     */
+    public static <K, V> Map<K, V> toMap(MapTag<? extends Tag<K>, ? extends Tag<V>> mapTag) {
+        final Map<K, V> map = new HashMap<>();
+        for (Map.Entry<? extends Tag<K>, ? extends Tag<V>> entry : mapTag.entrySet()) {
+            map.put(entry.getKey().get(), entry.getValue().get());
+        }
+        return map;
+    }
+
+    /**
      * Constructs a new {@link MapTag} from
      * the given {@link Map}.
      *
@@ -51,6 +68,9 @@ public final class MapTag<K extends Tag<?>, V extends Tag<?>> extends HashMap<K,
         return new MapTag<>(map);
     }
 
+    /**
+     * Constructs a new {@link MapTag}.
+     */
     public MapTag() {
     }
 
