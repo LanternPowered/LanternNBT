@@ -833,4 +833,9 @@ public final class ListTag<T extends Tag<?>> extends ArrayList<T> implements Tag
         }
         return false;
     }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + super.toString();
+    }
 }

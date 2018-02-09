@@ -217,6 +217,7 @@ public final class NbtTagOutputStream implements TagOutputStream {
                 }
                 break;
             case MAP:
+                writeMap((MapTag) tag);
                 break;
             case MAP_ARRAY:
                 final MapTag[] mapTagArray = ((MapArrayTag) tag).get();

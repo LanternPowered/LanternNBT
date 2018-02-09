@@ -558,4 +558,9 @@ public final class CompoundTag extends HashMap<String, Tag<?>> implements Tag<Ma
         }
         return ((NumberTag<?>) tag).doubleValue();
     }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + super.toString();
+    }
 }

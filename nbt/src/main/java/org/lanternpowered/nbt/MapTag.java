@@ -132,4 +132,9 @@ public final class MapTag<K extends Tag<?>, V extends Tag<?>> extends HashMap<K,
         requireNonNull(value, "A null value isn't supported");
         return super.put(key, value);
     }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + super.toString();
+    }
 }

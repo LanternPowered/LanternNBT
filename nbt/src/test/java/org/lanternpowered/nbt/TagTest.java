@@ -24,6 +24,8 @@
  */
 package org.lanternpowered.nbt;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 import org.lanternpowered.nbt.io.NbtTagInputStream;
 import org.lanternpowered.nbt.io.NbtTagOutputStream;
@@ -39,20 +41,45 @@ public final class TagTest {
     @Test
     public void test() throws IOException {
         final CompoundTag compoundTag = new CompoundTag();
-        compoundTag.put("A", new BooleanTag(true));
-        compoundTag.put("B", new BooleanArrayTag(true, false, true, true));
-        compoundTag.put("C", new ByteTag((byte) 5));
-        compoundTag.put("D", new ByteArrayTag((byte) 6, (byte) 9, (byte) 20, (byte) 30));
-        compoundTag.put("E", new CharTag('C'));
-        compoundTag.put("F", new CharArrayTag('A', 'B', 'C', 'D'));
-        compoundTag.put("G", new DoubleTag(7.3));
-        compoundTag.put("H", new DoubleArrayTag(7.3, 7.4, 5.3, 1.2));
+
+        // Boolean value
+        final BooleanTag booleanTag = new BooleanTag(true);
+        compoundTag.put("A", booleanTag);
+
+        // Boolean array value
+        final BooleanArrayTag booleanArrayTag = new BooleanArrayTag(true, false, true, true);
+        compoundTag.put("B", booleanArrayTag);
+
+        // Byte value
+        final ByteTag byteTag = new ByteTag((byte) 5);
+        compoundTag.put("C", byteTag);
+
+        // Byte array value
+        final ByteArrayTag byteArrayTag = new ByteArrayTag((byte) 6, (byte) 9, (byte) 20, (byte) 30);
+        compoundTag.put("D", byteArrayTag);
+
+        // Char value
+        final CharTag charTag = new CharTag('C');
+        compoundTag.put("E", charTag);
+
+        // Char array value
+        final CharArrayTag charArrayTag = new CharArrayTag('A', 'B', 'C', 'D');
+        compoundTag.put("F", charArrayTag);
+
+        // Double value
+        final DoubleTag doubleTag = new DoubleTag(7.3);
+        compoundTag.put("G", doubleTag);
+
+        // Double array value
+        final DoubleArrayTag doubleArrayTag = new DoubleArrayTag(7.3, 7.4, 5.3, 1.2);
+        compoundTag.put("H", doubleArrayTag);
+
         compoundTag.put("I", new FloatTag(5.1f));
         compoundTag.put("J", new FloatArrayTag(5.1f, 5.32f));
         compoundTag.put("K", new IntTag(3));
         compoundTag.put("L", new IntArrayTag(30, 50, 60, 80));
         compoundTag.put("M", new LongTag(40));
-        //compoundTag.put("N", new LongArrayTag(30, 60));
+        compoundTag.put("N", new LongArrayTag(30, 60));
         compoundTag.put("O", new ShortTag((short) 3));
         compoundTag.put("P", new ShortArrayTag((short) 3, (short) 7));
         compoundTag.put("Q", new StringTag("Test"));
@@ -68,6 +95,20 @@ public final class TagTest {
         listTag1.add(new DoubleArrayTag(7.3, 7.4));
         listTag1.add(new DoubleArrayTag(5.3, 1.2));
         compoundTag.put("U", listTag1);
+        final MapTag<IntTag, DoubleTag> intToDoubleMapTag = new MapTag<>();
+        intToDoubleMapTag.put(new IntTag(100), new DoubleTag(253.98));
+        intToDoubleMapTag.put(new IntTag(20), new DoubleTag(96035.047821));
+        compoundTag.put("V", intToDoubleMapTag);
+        final MapTag<IntTag, CharTag> intToCharMapTag = new MapTag<>();
+        intToCharMapTag.put(new IntTag(100), new CharTag('B'));
+        intToCharMapTag.put(new IntTag(20), new CharTag('Q'));
+        compoundTag.put("W", intToCharMapTag);
+        final MapTag<IntTag, Tag<?>> intToMixedMapTag = new MapTag<>();
+        intToMixedMapTag.put(new IntTag(100), new CharTag('B'));
+        intToMixedMapTag.put(new IntTag(20), new StringTag("Hallo"));
+        intToMixedMapTag.put(new IntTag(10), new LongTag(9L));
+        intToMixedMapTag.put(new IntTag(12), new CharArrayTag('H', 'O', 'L', 'A'));
+        compoundTag.put("X", intToMixedMapTag);
 
         final NbtTagOutputStream nos = new NbtTagOutputStream(
                 new GZIPOutputStream(Files.newOutputStream(Paths.get("test.nbt"))));
@@ -77,7 +118,39 @@ public final class TagTest {
 
         final NbtTagInputStream nis = new NbtTagInputStream(
                 new GZIPInputStream(Files.newInputStream(Paths.get("test.nbt"))));
-        System.out.println(nis.read());
+        final CompoundTag newCompoundTag = (CompoundTag) nis.read();
+        System.out.println(newCompoundTag);
         nis.close();
+
+        // Boolean value
+        assertEquals(booleanTag, newCompoundTag.get("A"));
+        assertEquals(booleanTag.booleanValue(), newCompoundTag.getBoolean("A"));
+
+        // Boolean array value
+        assertEquals(booleanArrayTag, newCompoundTag.get("B"));
+
+        // Byte value
+        assertEquals(byteTag, newCompoundTag.get("C"));
+        assertEquals(byteTag.byteValue(), newCompoundTag.getByte("C"));
+
+        // Byte array value
+        assertEquals(byteArrayTag, newCompoundTag.get("D"));
+
+        // Char value
+        assertEquals(charTag, newCompoundTag.get("E"));
+        assertEquals(charTag.charValue(), newCompoundTag.getChar("E"));
+
+        // Char array value
+        assertEquals(charArrayTag, newCompoundTag.get("F"));
+
+        // Double value
+        assertEquals(doubleTag, newCompoundTag.get("G"));
+        assertEquals(doubleTag.doubleValue(), newCompoundTag.getDouble("G"), 0.00000000001);
+
+        // Double array value
+        assertEquals(doubleArrayTag, newCompoundTag.get("H"));
+
+        // The complete compound tags
+        assertEquals(compoundTag, newCompoundTag);
     }
 }
