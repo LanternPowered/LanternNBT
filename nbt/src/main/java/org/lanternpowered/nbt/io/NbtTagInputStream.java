@@ -180,6 +180,9 @@ public final class NbtTagInputStream implements TagInputStream {
 
         final MapTag mapTag = new MapTag();
         if (type == NbtType.END.type) {
+            if (length != 0) {
+                throw new IllegalStateException("Got a list tag with end tags which isn't empty.");
+            }
             return mapTag;
         } else if (type != NbtType.COMPOUND.type) {
             throw new IOException("Attempted to deserialize a Map (List) but the list type wasn't a compound.");
@@ -227,6 +230,9 @@ public final class NbtTagInputStream implements TagInputStream {
                 byte type = this.dis.readByte();
                 int length = this.dis.readInt();
                 if (type == NbtType.END.type) {
+                    if (length != 0) {
+                        throw new IllegalStateException("Got a list tag with end tags which isn't empty.");
+                    }
                     return new ShortArrayTag(EMPTY_SHORT_ARRAY);
                 } else if (type != NbtType.SHORT.type) {
                     throw new IOException("Attempted to deserialize a Short Array (List) but the list type wasn't a short.");
@@ -266,6 +272,9 @@ public final class NbtTagInputStream implements TagInputStream {
                 type = this.dis.readByte();
                 length = this.dis.readInt();
                 if (type == NbtType.END.type) {
+                    if (length != 0) {
+                        throw new IllegalStateException("Got a list tag with end tags which isn't empty.");
+                    }
                     return new FloatArrayTag(EMPTY_FLOAT_ARRAY);
                 } else if (type != NbtType.FLOAT.type) {
                     throw new IOException("Attempted to deserialize a Float Array (List) but the list type wasn't a float.");
@@ -281,6 +290,9 @@ public final class NbtTagInputStream implements TagInputStream {
                 type = this.dis.readByte();
                 length = this.dis.readInt();
                 if (type == NbtType.END.type) {
+                    if (length != 0) {
+                        throw new IllegalStateException("Got a list tag with end tags which isn't empty.");
+                    }
                     return new DoubleArrayTag(EMPTY_DOUBLE_ARRAY);
                 } else if (type != NbtType.DOUBLE.type) {
                     throw new IOException("Attempted to deserialize a Double Array (List) but the list type wasn't a double.");
@@ -296,6 +308,9 @@ public final class NbtTagInputStream implements TagInputStream {
                 type = this.dis.readByte();
                 length = this.dis.readInt();
                 if (type == NbtType.END.type) {
+                    if (length != 0) {
+                        throw new IllegalStateException("Got a list tag with end tags which isn't empty.");
+                    }
                     return new StringArrayTag(EMPTY_STRING_ARRAY);
                 } else if (type != NbtType.STRING.type) {
                     throw new IOException("Attempted to deserialize a String Array (List) but the list type wasn't a string.");
@@ -343,6 +358,9 @@ public final class NbtTagInputStream implements TagInputStream {
                 type = this.dis.readByte();
                 length = this.dis.readInt();
                 if (type == NbtType.END.type) {
+                    if (length != 0) {
+                        throw new IllegalStateException("Got a list tag with end tags which isn't empty.");
+                    }
                     return new CompoundArrayTag(EMPTY_COMPOUND_TAG_ARRAY);
                 } else if (type != NbtType.COMPOUND.type) {
                     throw new IOException("Attempted to deserialize a Compound Array (List) but the list type wasn't a compound.");
@@ -359,6 +377,9 @@ public final class NbtTagInputStream implements TagInputStream {
                 type = this.dis.readByte();
                 length = this.dis.readInt();
                 if (type == NbtType.END.type) {
+                    if (length != 0) {
+                        throw new IllegalStateException("Got a list tag with end tags which isn't empty.");
+                    }
                     return new MapArrayTag(EMPTY_MAP_TAG_ARRAY);
                 } else if (type != NbtType.LIST.type) {
                     throw new IOException("Attempted to deserialize a Map Array (List) but the list type wasn't a list.");
